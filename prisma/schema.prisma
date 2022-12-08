@@ -5,8 +5,10 @@ generator client {
 datasource db {
   provider = "mysql"
   url = env("DATABASE_URL")
-  // relationMode = "prisma"
+  relationMode = "prisma"
 }
+
+
 
 
 model Investor {
@@ -27,8 +29,7 @@ model Consultant {
   password String
   phone String @unique
   Aboutme String
-  experience String
-  twitter String
+  certificate String
   investor Investor[]
   session Session[]
 
@@ -44,9 +45,9 @@ model Session {
   investor_id String
   consultant_id String
 
-
   investor Investor @relation(fields: [investor_id],references: [id])
-  consultant Consultant @relation(fields: [consultant_id],references: [id])
+  consultant Consultant @relation(fields: [consultant_id],references: [id])  
 
-  
+  @@index([investor_id])
+  @@index([consultant_id])
 }
