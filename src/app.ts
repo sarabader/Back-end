@@ -2,6 +2,7 @@ import  Express  from "express";
 import express from 'express';
 import { connectDB } from './config/db';
 import 'dotenv/config';
+import authRouter from './route/auth.routes';
 
 const app = express();
 
@@ -9,6 +10,8 @@ app.use(express.json());
 
 
 connectDB();
+
+app.use('/api/v1/auth', authRouter);
 
 
 app.use((req, res, next) => {

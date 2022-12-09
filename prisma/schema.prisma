@@ -11,7 +11,7 @@ datasource db {
 
 
 
-model Investor {
+model User {
   id String @id @default(uuid())
   name String 
   email String @unique
@@ -28,9 +28,9 @@ model Consultant {
   email String @unique
   password String
   phone String @unique
-  Aboutme String
+  AboutMe String
   certificate String
-  investor Investor[]
+  user User[]
   session Session[]
 
 }
@@ -42,12 +42,12 @@ model Session {
   duration String
   price String
   sessionType String
-  investor_id String
+  user_id String
   consultant_id String
 
-  investor Investor @relation(fields: [investor_id],references: [id])
+  user User @relation(fields: [user_id],references: [id])
   consultant Consultant @relation(fields: [consultant_id],references: [id])  
 
-  @@index([investor_id])
+  @@index([user_id])
   @@index([consultant_id])
 }

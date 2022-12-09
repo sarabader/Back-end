@@ -35,7 +35,7 @@ export const registerConsultantSchema = z.object({
         certificate: z
         .string({required_error:'Certificate Number is required'}),
 
-        Aboutme:z
+        AboutMe:z
         .string({required_error:'About You is required EX:المؤهل العلمي و سنوات الخبرة '}), 
     }),
 });  
