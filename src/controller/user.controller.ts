@@ -1,7 +1,7 @@
 import { Consultant } from "@prisma/client";
 import { Request, Response } from 'express';
 import { prisma } from '../config/db';
-import { getConsultantSchemaType } from "../zod_schema/user.schema";
+import { getConsultantSchemaType, getSessionSchemaType } from "../zod_schema/user.schema";
 
 export const getAllConsultantHandler = async (req: Request, res: Response) => {
     const consultants = await prisma.consultant.findMany({
@@ -35,3 +35,19 @@ export const getConsultantHandler = async (req: Request, res: Response) => {
     return res.status(200).json(consultant);
   };
   
+  export const getSessionHandler = async (req: Request, res: Response) => {
+    // const user = res.locals.user as Consultant;
+    const {investor_id} = req.params as getSessionSchemaType
+  
+    const session = await prisma.consultant.findUnique({
+        where: { user_id: investor_id},
+        include: {
+            user: {
+                select: {
+                    username: true,
+                }
+            }
+        }
+    })
+    return res.status(200).json(session);
+  };
