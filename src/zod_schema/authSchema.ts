@@ -11,10 +11,7 @@ export const registerUserSchema = z.object({
         email: z         
         .string({required_error:'Email is required', invalid_type_error: 'Email must be a string'})
         .email('Please enter a valid email'),
-        phone: z
-        .string({required_error:'Phone is required', invalid_type_error: 'Phone must be a string'})
-        .min(10,'Phone must be 05XXXXXXXX').max(10, 'Phone must be 05XXXXXXXX'),
-       
+        role:z.enum([ 'Investor' ,'Consultant'])
     }),
 });  
 
@@ -37,6 +34,11 @@ export const registerConsultantSchema = z.object({
 
         AboutMe:z
         .string({required_error:'About You is required EX:المؤهل العلمي و سنوات الخبرة '}), 
+
+        filed:z
+        .string({required_error:'your Filed is required'}), 
+
+        
     }),
 });  
 

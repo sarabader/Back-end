@@ -1,20 +1,20 @@
-    import { Consultant } from '@prisma/client';
+import { Consultant, Role, User } from '@prisma/client';
 import { Request, Response } from 'express';
 import * as argon2 from 'argon2';
 import * as jwt from 'jsonwebtoken';
 import { prisma } from '../config/db';
 
 
-export const ConsultantLoginHandler = async (req: Request, res: Response) => {
-  const { email, password } = req.body as Consultant;
+export const LoginHandler = async (req: Request, res: Response) => {
+  const { email, password } = req.body as User;
 
-  const user = await prisma.consultant.findUnique({
+  const user = await prisma.user.findFirst({
     where: { email },
   });
 
   if (!user) {
     return res.status(400).json({
-      message: 'Wrong Email or Password !',
+      message: 'كلمة المرور أو البريد الالكتروني  خاطىء',
     });
   }
 
@@ -22,48 +22,58 @@ export const ConsultantLoginHandler = async (req: Request, res: Response) => {
 
   if (!isMatched) {
     return res.status(400).json({
-      message: 'Wrong Email or Password !',
+      message: 'كلمة المرور أو البريد الالكتروني  خاطىء',
     });
   }
 
   const token = jwt.sign(
     { id: user.id},
     process.env.JWT_SECRET as string,
-    
+
   );
 
   return res.status(200).json({
-    message: 'Welcome back ' + user.name + ' !',
+    message: '' + user.username + ' مرحبا بك ',
     token,
   });
 };
 
 
 
-
-export const ConsultantRegisterHandler = async (req: Request, res: Response) => {
+export const RegisterHandler = async (req: Request, res: Response) => {
     try {
-      const {name, password, email ,phone, AboutMe, certificate} = req.body as Consultant;
+      const {username, password, email ,phone, AboutMe, certificate, filed, role} =req.body as Consultant & User;
       const hashedPassword = await argon2.hash(password);
-  
+      
+      if(role==Role.Investor){
+      await prisma.user.create({
+        data:{
+        username,
+        email,
+        password,
+        role,
+      },
+      })
 
       await prisma.consultant.create({
-        data:{
-            name,
-            password: hashedPassword,
-            email,
+          data:{
             phone,
             AboutMe, 
-            certificate
+            certificate,
+            filed,
             
+                
         },
+      
       });
-  
+    
+    }
       return res.status(201).json({
         message:  "تم التسجيل بنجاح !",
       });
+    
     } catch (error) {
+      // console.log(error.message)
       return res.status(400).json({ message: 'Issue with your input' });
     }
   };
-
