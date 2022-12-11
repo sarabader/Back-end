@@ -11,7 +11,7 @@ app.use(express.json());
 
 connectDB();
 
-app.use('/api/v1/auth', authRouter);
+app.use('/api/v2/auth', authRouter);
 
 
 app.use((req, res, next) => {
