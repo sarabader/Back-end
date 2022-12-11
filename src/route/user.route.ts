@@ -6,9 +6,7 @@ import { getConsultantSchema } from '../zod_schema/user.schema';
 
 const router = express.Router();
 
-
-
 router.get('/', getAllConsultantHandler);
-router.get('/consultant/:id', validate( getConsultantSchema), getConsultantHandler);
+router.get('/:id', validate( getConsultantSchema), getConsultantHandler);
 
 export default router;

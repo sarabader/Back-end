@@ -1,4 +1,3 @@
-import  Express  from "express";
 import express from 'express';
 import { connectDB } from './config/db';
 import 'dotenv/config';
@@ -13,7 +12,7 @@ app.use(express.json());
 connectDB();
 
 app.use('/api/v1/auth', authRouter);
-app.use('/api/v1/', userRouter);
+app.use('/api/v1/consultant', userRouter);
 
 
 app.use((req, res, next) => {
