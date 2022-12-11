@@ -13,41 +13,57 @@ datasource db {
 
 model User {
   id String @id @default(uuid())
-  name String 
+  username String 
   email String @unique
   password String
-  phone String @unique
-  consultant Consultant[]
-   session Session[]
+  role Role  
+  consultant Consultant?
+  investor Investor?
 }
+
+enum Role {
+  Investor
+  Consultant
+}
+
+model Investor {
+  user_id String @id @default(uuid())
+  user User @relation(fields: [user_id], references: [id])
+  session Session[]
+
+
+
+  @@index([user_id])
+}
+
 
 
 model Consultant {
-  id String @id @default(uuid())
-  name String
-  email String @unique
-  password String
+  user_id String @id @default(uuid())
+  user User @relation(fields: [user_id], references: [id])
   phone String @unique
   AboutMe String
   certificate String
-  user User[]
+  filed String
   session Session[]
 
+
+
+  @@index([user_id])
 }
 
 model Session {
-   id String @id @default(uuid())
-  time String
-  date String 
+  id String @id @default(uuid()) 
   duration String
   price String
-  sessionType String
-  user_id String
   consultant_id String
+  investor_id String
 
-  user User @relation(fields: [user_id],references: [id])
-  consultant Consultant @relation(fields: [consultant_id],references: [id])  
 
-  @@index([user_id])
+  consultant Consultant @relation(fields: [consultant_id],references: [user_id]) 
+  investor Investor @relation(fields: [investor_id],references: [user_id])  
+ 
+
+  @@index([investor_id])
   @@index([consultant_id])
 }
