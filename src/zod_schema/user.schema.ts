@@ -16,3 +16,13 @@ export const getSessionSchema = z.object({
 });
 
 export type getSessionSchemaType = z.infer <typeof getSessionSchema> ['params']
+
+export const addSessionSchema = z.object({
+    body: z.object({
+      duration: z.string({ required_error: 'Duration is required !' }),
+      price: z.string({ required_error: 'Price is required !' }),
+      consultant_id: z.string({ required_error: 'consultant id is required !' }),
+      investor_id: z.string({ required_error: 'investor id is required !' }),
+
+    }),
+  });

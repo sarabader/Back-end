@@ -15,7 +15,7 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/consultant', userRouter);
 
 
-app.use((req, res, next) => {
+app.use((req, res) => {
   return res.status(404).json({
     message: 'Route not found ! ',
   });

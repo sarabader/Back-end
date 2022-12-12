@@ -1,7 +1,65 @@
-import { Consultant } from "@prisma/client";
+import { Consultant, Session, User } from "@prisma/client";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { Request, Response } from 'express';
 import { prisma } from '../config/db';
 import { getConsultantSchemaType, getSessionSchemaType } from "../zod_schema/user.schema";
+
+
+// export const addUser = async (req: Request, res: Response) => {
+//     const newUser = req.body as User;
+  
+//     try {
+//       await prisma.user.create({
+//         data: newUser,
+//       });
+//       res.status(201).json({
+//         message: 'New User created !',
+//       });
+//     } catch (error) {
+//       const prismaError = error as PrismaClientKnownRequestError;
+//       res.status(400).json({
+//         message: prismaError.message,
+//       });
+//     }
+//   };
+
+//   export const addConsultant = async (req: Request, res: Response) => {
+//     const newConsultant = req.body as Consultant;
+  
+//     try {
+//       await prisma.consultant.create({
+//         data: newConsultant,
+//       });
+//       res.status(201).json({
+//         message: 'New Consultant created !',
+//       });
+//     } catch (error) {
+//       const prismaError = error as PrismaClientKnownRequestError;
+//       res.status(400).json({
+//         message: prismaError.message,
+//       });
+//     }
+//   };
+
+  export const addSession = async (req: Request, res: Response) => {
+    const newSession = req.body as Session;
+  
+    try {
+      await prisma.session.create({
+        data: newSession,
+      });
+      res.status(201).json({
+        message: 'New Session created !',
+      });
+    } catch (error) {
+      const prismaError = error as PrismaClientKnownRequestError;
+      res.status(400).json({
+        message: prismaError.message,
+      });
+    }
+  };
+  
+
 
 export const getAllConsultantHandler = async (req: Request, res: Response) => {
     const consultants = await prisma.consultant.findMany({
@@ -51,3 +109,5 @@ export const getConsultantHandler = async (req: Request, res: Response) => {
     })
     return res.status(200).json(session);
   };
+
+  
