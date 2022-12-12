@@ -44,30 +44,17 @@ export const RegisterHandler = async (req: Request, res: Response) => {
     try {
       const {username, password, email ,phone, AboutMe, certificate, filed, role} =req.body as Consultant & User;
       const hashedPassword = await argon2.hash(password);
+
       
-      if(role==Role.Investor){
       await prisma.user.create({
         data:{
         username,
         email,
-        password,
-        role,
+        password:hashedPassword,
+        role,      
       },
       })
-
-      await prisma.consultant.create({
-          data:{
-            phone,
-            AboutMe, 
-            certificate,
-            filed,
-            
-                
-        },
-      
-      });
-    
-    }
+     
       return res.status(201).json({
         message:  "تم التسجيل بنجاح !",
       });

@@ -36,10 +36,19 @@ model Investor {
   @@index([user_id])
 }
 
+model RaitingComments{
+  id String @id @default(uuid())
+  raiting Int
+  comments String
+  consultant Consultant[]
+}
+
 
 
 model Consultant {
   user_id String @id @default(uuid())
+  RaitingComments_id String
+  raiting RaitingComments @relation(fields: [RaitingComments_id], references: [id])
   user User @relation(fields: [user_id], references: [id])
   phone String @unique
   AboutMe String
@@ -47,10 +56,11 @@ model Consultant {
   filed String
   session Session[]
 
-
-
   @@index([user_id])
+  @@index([RaitingComments_id])
 }
+
+
 
 model Session {
   id String @id @default(uuid()) 

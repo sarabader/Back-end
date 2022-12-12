@@ -2,7 +2,7 @@ import {z} from 'zod';
 
 export const registerUserSchema = z.object({
     body: z.object({
-        name: z.
+        username: z.
         string({required_error:'Username is required', invalid_type_error: 'Username must be a string'})
         .min(3,'Username must be more than 3 char').max(15, 'Username must be less than 15 char'),
         password: z
@@ -20,8 +20,8 @@ export const registerUserSchema = z.object({
 
 export const registerConsultantSchema = z.object({
     body: z.object({
-        name: z.
-        string({required_error:'Username is required', invalid_type_error: 'Username must be a string'})
+        username: z
+        .string({required_error:'Username iss required', invalid_type_error: 'Username must be a string'})
         .min(3,'Username must be more than 3 char').max(15, 'Username must be less than 15 char'),
         password: z
         .string({required_error:'Password is required'})
