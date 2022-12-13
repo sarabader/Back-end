@@ -12,7 +12,7 @@ app.use(express.json());
 
 connectDB();
 
-app.use('/api/v2/auth', Router);
+app.use('/api/v1/shoraa', Router);
 
 
 

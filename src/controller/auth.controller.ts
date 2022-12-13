@@ -1,4 +1,4 @@
-    import { Consultant, Role, User } from '@prisma/client';
+import { Consultant, Role, User } from '@prisma/client';
 import { Request, Response } from 'express';
 import * as argon2 from 'argon2';
 import * as jwt from 'jsonwebtoken';
@@ -80,3 +80,42 @@ export const RegisterHandler = async (req: Request, res: Response) => {
     }
   };
 
+  export const ProfileHandler = async (req: Request, res: Response) => {
+    try {
+      const {username, password, email ,phone, AboutMe, certificate, filed, role} =req.body as Consultant & User;
+      const hashedPassword = await argon2.hash(password);
+     const user= await prisma.user.create({
+        data:{
+        username,
+        email,
+        password:hashedPassword,
+        role,      
+      },
+      })
+
+      if(role==='Consultant'){
+  await prisma.consultant.create({
+        data:{
+          user_id:user.id,
+          phone, 
+          AboutMe, 
+          certificate,
+           filed,  
+      },
+      })
+      }else {
+        await prisma.investor.create({
+          data:{user_id:user.id}
+        })
+      }
+    
+   
+      return res.status(201).json({
+        message:  "تم التسجيل بنجاح !",
+      });
+    
+    } catch (error) {
+      console.log(error)
+      return res.status(400).json({ message: 'Issue with your input' });
+    }
+  };
