@@ -1,5 +1,5 @@
 import express from 'express';
-import { RegisterHandler, LoginHandler, ProfileHandler  } from '../controller/auth.controller';
+import { RegisterHandler, LoginHandler  } from '../controller/auth.controller';
 import { deleteSessionHandler, getAllConsultantHandler, getConsultantHandler } from '../controller/user.controller';
 import { protect } from '../middleware/auth';
 import validate from '../middleware/validate';
