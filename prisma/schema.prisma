@@ -31,33 +31,37 @@ model Investor {
   user User @relation(fields: [user_id], references: [id])
   session Session[]
 
-
+ coment Comments[]
 
   @@index([user_id])
 }
 
-model RaitingComments{
+model Comments{
   id String @id @default(uuid())
-  raiting Int
-  comments String
-  consultant Consultant[]
+  comments String?
+  consultantID String
+  InvestorId String
+  consultant Consultant @relation(fields:[consultantID],references: [user_id]) 
+  investor Investor @relation(fields:[InvestorId],references: [user_id]) 
+
+
+  @@index([consultantID])
+  @@index([InvestorId])
 }
 
 
 
 model Consultant {
-  user_id String @id @default(uuid())
-  RaitingComments_id String
-  raiting RaitingComments @relation(fields: [RaitingComments_id], references: [id])
+  user_id String @id
   user User @relation(fields: [user_id], references: [id])
   phone String @unique
   AboutMe String
   certificate String
   filed String
   session Session[]
+  coment Comments[]
 
   @@index([user_id])
-  @@index([RaitingComments_id])
 }
 
 
