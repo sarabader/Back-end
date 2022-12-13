@@ -9,7 +9,7 @@ import { deleteSessionSchema, getConsultantSchema } from '../zod_schema/user.sch
 const router = express.Router();
 
 router.post('/register', validate(registerConsultantSchema), RegisterHandler);
-router.post('/profile', validate(registerConsultantSchema), ProfileHandler);
+// router.post('/profile', validate(registerConsultantSchema), ProfileHandler);
 router.post('/Userregister', validate(registerUserSchema), RegisterHandler);
 router.post('/login', validate(loginSchema), LoginHandler);
 
