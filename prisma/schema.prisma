@@ -38,12 +38,11 @@ model Investor {
 
 model Comments{
   id String @id @default(uuid())
-  comments String?
+  comments String
   consultantID String
   InvestorId String
   consultant Consultant @relation(fields:[consultantID],references: [user_id]) 
   investor Investor @relation(fields:[InvestorId],references: [user_id]) 
-
 
   @@index([consultantID])
   @@index([InvestorId])

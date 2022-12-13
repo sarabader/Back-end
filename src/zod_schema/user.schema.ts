@@ -9,6 +9,15 @@ export const getConsultantSchema = z.object({
 export type getConsultantSchemaType = z.infer <typeof getConsultantSchema> ['params']
 
 
+
+export const CommentsSchema = z.object({
+    params: z.object({
+        id: z.string({invalid_type_error: "Comments must be string"}),
+    }),
+});
+
+export type getCommentsSchemaType = z.infer <typeof CommentsSchema> ['params']
+
 export const getSessionSchema = z.object({
     params: z.object({
         investor_id: z.string({invalid_type_error: "Id must be string"}),
@@ -26,3 +35,18 @@ export const addSessionSchema = z.object({
 
     }),
   });
+
+  export const deleteSessionSchema = z.object({
+    params: z.object({
+      id: z.string({
+        required_error: 'id is required !',
+        invalid_type_error: 'session id must be a string',
+      }),
+    }),
+  });
+  
+  export type deleteSessionSchemaType = z.infer<typeof deleteSessionSchema>['params'];
+
+
+  
+
