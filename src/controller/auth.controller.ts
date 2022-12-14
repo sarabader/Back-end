@@ -119,3 +119,23 @@ export const RegisterHandler = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'Issue with your input' });
     }
   };
+
+  export const deleteHandler = async (req: Request, res: Response) => {
+    const { user_id } = req.params as Consultant;
+
+    const deleteCount = await prisma.consultant.deleteMany({
+      where: {
+        user_id: user_id,
+      },
+    });
+
+    if (deleteCount.count == 0) {
+      return res.status(400).json({
+        message: 'Invalid user id',
+      });
+    }
+
+    return res.status(200).json({
+      message: 'user deleted !',
+    });
+  };

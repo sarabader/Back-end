@@ -55,17 +55,6 @@ export const addSessionSchema = z.object({
 
 
   
-  export const deleteConsultantSchema = z.object({
-    params: z.object({
-      id: z.string({
-        required_error: 'id is required !',
-        invalid_type_error: 'session id must be a string',
-      }),
-    }),
-  });
-  
-  export type deleteConsultantSchemaType = z.infer<typeof deleteConsultantSchema>['params'];
-
 
   
 
