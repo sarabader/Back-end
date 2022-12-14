@@ -8,7 +8,13 @@ export const getConsultantSchema = z.object({
 
 export type getConsultantSchemaType = z.infer <typeof getConsultantSchema> ['params']
 
+export const profileConsultantSchema = z.object({
+  params: z.object({
+      user_id: z.string({invalid_type_error: "Id must be string"}),
+  }),
+});
 
+export type profileConsultantSchemaType = z.infer <typeof profileConsultantSchema> ['params']
 
 export const CommentsSchema = z.object({
     params: z.object({
@@ -49,7 +55,17 @@ export const addSessionSchema = z.object({
 
 
   
-<<<<<<< HEAD
-=======
+  export const deleteConsultantSchema = z.object({
+    params: z.object({
+      id: z.string({
+        required_error: 'id is required !',
+        invalid_type_error: 'session id must be a string',
+      }),
+    }),
+  });
+  
+  export type deleteConsultantSchemaType = z.infer<typeof deleteConsultantSchema>['params'];
 
->>>>>>> 2b287b00257de716c93df0e1833efc4faa245b3a
+
+  
+

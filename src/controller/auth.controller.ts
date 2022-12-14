@@ -80,42 +80,42 @@ export const RegisterHandler = async (req: Request, res: Response) => {
     }
   };
 
-  // export const ProfileHandler = async (req: Request, res: Response) => {
-  //   try {
-  //     const {username, password, email ,phone, AboutMe, certificate, filed, role} =req.body as Consultant & User;
-  //     const hashedPassword = await argon2.hash(password);
-  //    const user= await prisma.user.create({
-  //       data:{
-  //       username,
-  //       email,
-  //       password:hashedPassword,
-  //       role,      
-  //     },
-  //     })
+  export const ProfileHandler = async (req: Request, res: Response) => {
+    try {
+      const {username, password, email ,phone, AboutMe, certificate, filed, role} =req.body as Consultant & User;
+      const hashedPassword = await argon2.hash(password);
+     const user= await prisma.user.create({
+        data:{
+        username,
+        email,
+        password:hashedPassword,
+        role,      
+      },
+      })
 
-  //     if(role==='Consultant'){
-  // await prisma.consultant.create({
-  //       data:{
-  //         user_id:user.id,
-  //         phone, 
-  //         AboutMe, 
-  //         certificate,
-  //          filed,  
-  //     },
-  //     })
-  //     }else {
-  //       await prisma.investor.create({
-  //         data:{user_id:user.id}
-  //       })
-  //     }
+      if(role==='Consultant'){
+  await prisma.consultant.create({
+        data:{
+          user_id:user.id,
+          phone, 
+          AboutMe, 
+          certificate,
+           filed,  
+      },
+      })
+      }else {
+        await prisma.investor.create({
+          data:{user_id:user.id}
+        })
+      }
     
    
-  //     return res.status(201).json({
-  //       message:  "تم التسجيل بنجاح !",
-  //     });
+      return res.status(201).json({
+        message:  "تم التسجيل بنجاح !",
+      });
     
-  //   } catch (error) {
-  //     console.log(error)
-  //     return res.status(400).json({ message: 'Issue with your input' });
-  //   }
-  // };
+    } catch (error) {
+      console.log(error)
+      return res.status(400).json({ message: 'Issue with your input' });
+    }
+  };

@@ -1,22 +1,24 @@
 import express from 'express';
-import { RegisterHandler, LoginHandler  } from '../controller/auth.controller';
-import { deleteSessionHandler, getAllConsultantHandler, getConsultantHandler } from '../controller/user.controller';
+import { RegisterHandler, LoginHandler, ProfileHandler  } from '../controller/auth.controller';
+import { deleteSessionHandler, getAllConsultantHandler, getConsultantHandler, getSessionHandler } from '../controller/user.controller';
 import { protect } from '../middleware/auth';
 import validate from '../middleware/validate';
 import { loginSchema, registerConsultantSchema, registerUserSchema } from '../zod_schema/authSchema';
-import { deleteSessionSchema, getConsultantSchema } from '../zod_schema/user.schema';
+import { deleteConsultantSchema, deleteSessionSchema, getConsultantSchema, getSessionSchema } from '../zod_schema/user.schema';
 
 const router = express.Router();
 
 router.post('/register', validate(registerConsultantSchema), RegisterHandler);
-// router.post('/profile', validate(registerConsultantSchema), ProfileHandler);
+// router.get('/profile', validate(profileConsultantSchema), ProfileHandler);
 router.post('/Userregister', validate(registerUserSchema), RegisterHandler);
 router.post('/login', validate(loginSchema), LoginHandler);
 
 router.get('/consultant', getAllConsultantHandler);
-router.get('/:user_id', validate( getConsultantSchema), getConsultantHandler);
+router.get('/con/:user_id', validate( getConsultantSchema), getConsultantHandler);
+router.get('/:consultant_id', validate( getSessionSchema), getSessionHandler);
 
 router.delete('/:id',protect,validate(deleteSessionSchema),deleteSessionHandler);
+router.delete('consultant/:id',protect,validate(deleteConsultantSchema),deleteSessionHandler);
 
 
 export default router;

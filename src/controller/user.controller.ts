@@ -3,7 +3,7 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { Request, Response } from 'express';
 import { prisma } from '../config/db';
 import { IUser } from "../middleware/auth";
-import { getCommentsSchemaType, getConsultantSchemaType, getSessionSchemaType ,deleteSessionSchemaType } from "../zod_schema/user.schema";
+import { getCommentsSchemaType, getConsultantSchemaType, getSessionSchemaType ,deleteSessionSchemaType, deleteConsultantSchemaType } from "../zod_schema/user.schema";
 
 
   export const addSession = async (req: Request, res: Response) => {
@@ -46,7 +46,7 @@ export const getConsultantHandler = async (req: Request, res: Response) => {
     // const user = res.locals.user as Consultant;
     const {user_id} = req.params as getConsultantSchemaType
   
-    const consultant = await prisma.consultant.findUnique({
+    const consultant = await prisma.consultant.findMany({
         where: { user_id: user_id},
         include: {
             user: {
@@ -111,6 +111,25 @@ export const addComments = async (req: Request, res: Response) => {
   export const deleteSessionHandler = async (req: Request, res: Response) => {
     const user = res.locals.user as IUser;
     const { id } = req.params as deleteSessionSchemaType;
+  
+    const deleteCount = await prisma.session.deleteMany({
+      where: {
+        id: id
+      },
+    });
+    if (deleteCount.count == 0) {
+      return res.status(400).json({
+        message: 'Invalid session id',
+      });
+    }
+    return res.status(200).json({
+      message: 'Session deleted !',
+    });
+  };
+
+  export const deleteConsultantHandler = async (req: Request, res: Response) => {
+    const user = res.locals.user as IUser;
+    const { id } = req.params as deleteConsultantSchemaType;
   
     const deleteCount = await prisma.session.deleteMany({
       where: {
