@@ -16,6 +16,8 @@ export const profileConsultantSchema = z.object({
 
 export type profileConsultantSchemaType = z.infer <typeof profileConsultantSchema> ['params']
 
+
+
 export const CommentsSchema = z.object({
     params: z.object({
         id: z.string({invalid_type_error: "Comments must be string"}),
@@ -55,6 +57,3 @@ export const addSessionSchema = z.object({
 
 
   
-
-  
-

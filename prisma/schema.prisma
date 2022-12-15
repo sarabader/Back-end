@@ -10,7 +10,6 @@ datasource db {
 
 
 
-
 model User {
   id String @id @default(uuid())
   username String 
@@ -71,7 +70,6 @@ model Session {
   price String
   consultant_id String
   investor_id String
-
 
   consultant Consultant @relation(fields: [consultant_id],references: [user_id]) 
   investor Investor @relation(fields: [investor_id],references: [user_id])  

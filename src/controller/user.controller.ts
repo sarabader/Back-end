@@ -3,7 +3,7 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { Request, Response } from 'express';
 import { prisma } from '../config/db';
 import { IUser } from "../middleware/auth";
-import { getCommentsSchemaType, getConsultantSchemaType, getSessionSchemaType ,deleteSessionSchemaType,  } from "../zod_schema/user.schema";
+import { getCommentsSchemaType, getConsultantSchemaType, getSessionSchemaType ,deleteSessionSchemaType, profileConsultantSchemaType,  } from "../zod_schema/user.schema";
 
 
   export const addSession = async (req: Request, res: Response) => {
@@ -127,3 +127,31 @@ export const addComments = async (req: Request, res: Response) => {
     });
   };
 
+
+
+  export const getConsultantProfileHandler = async (req: Request, res: Response) => {
+    
+    const {id} = res.locals as User;
+
+    try{
+      const consultant = await prisma.consultant.findFirst ({
+        
+        where: { user_id: id},
+        include: {
+            user: {
+                select: {
+                    username: true,
+                }
+            }
+        }
+    })
+    return res.status(200).json(consultant);
+    }catch(error){
+      return res.status(400).json({
+        message: ' ',
+      })
+    }
+  }
+  
+
+  getConsultantProfileHandler
